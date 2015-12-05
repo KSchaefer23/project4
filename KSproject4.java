@@ -1,5 +1,4 @@
 //// Kevin Schaefer
-//// Project 3
 //// CST 112 EVE
 
 //// 5 balls, cue, 4 buttons ////
@@ -56,10 +55,16 @@ void setup() {
   
   // Creates the balls
   kev[0]= new Ball(0,255,255,255);
-  kev[0].x = 200;
-  kev[0].y = 200; 
-    for (int i=1; i<nb; i++) {
-      kev[i]= new Ball( 0,255,255,255); }
+  kev[0].r= 255;
+  kev[0].g= 255;
+  kev[0].b= 255;
+  kev[0].x = (left+right)/3;
+  kev[0].y = (top+bottom)/2;
+  kev[0].dx = 0; 
+  kev[0].dy = 0;
+  for (int i=1; i<nb; i++) {
+    kev[i]= new Ball( 0, 255,255,255);
+  }
 /*  
   a = new Ball();
   a.r= 255; a.name= "1";
@@ -97,23 +102,6 @@ void reset() {
   ratX=left;
   ratclick=false;
   tableRed=150; tableGreen=250; tableBlue=150;
- /* 
-  // Set position for ball spawn
-  a.x= random(middle+40, right); a.y= random(top, bottom);
-  b.x= random(middle+40, right); b.y= random(top, bottom);
-  c.x= random(middle+40, right); c.y= random(top,bottom);
-  d.x= random(middle+40, right); d.y= random(top,bottom);
-  e.x= random(middle+40, right); e.y= random(top,bottom);
-  cue.x= (left+right)/3;         cue.y= (top+bottom)/2;
-  
-  // Set the speed for ball spawn
-  a.dx=  random( -3,3 );   a.dy=  random( -3,3 );
-  b.dx=  random( -3,3 );   b.dy=  random( -3,3 );
-  c.dx=  random( -3,3 );   c.dy=  random( -3,3 );
-  d.dx=  random( -3,3 );   d.dy=  random( -3,3 );
-  e.dx=  random( -3,3 );   e.dy=  random( -3,3 );
-  cue.dx= 0;               cue.dy= 0;
-  */
 }
 
 //// Draws the scene and calls functions
@@ -121,8 +109,8 @@ void draw() {
   background( 250,250,200 );
   rectMode( CORNERS );
   table( left, top, right, bottom );  
-  balls();
   ballDisplay();
+  balls();
   grass();
   clouds();
   count += 1;
@@ -361,14 +349,6 @@ void balls() {
   for( int i=0; i<nb; i++) {
     kev[i].move();
   }
-  /*
-  a.show();
-  b.show();
-  c.show();
-  d.show();
-  e.show();
-  cue.show();
-  */
 }
 
 /// Action when two balls collide (adds to score)
@@ -434,10 +414,10 @@ class Ball {
   float r,g,b;
   int number;
   //// CONSTRUCTORS:
-  Ball( int n ) {
+  /*Ball( int n ) {
     number=  n;
     randomize();
-  }
+  }*/
   Ball( int n, float r, float g, float b ) {
     number=  n;
     this.r=  r;
@@ -445,23 +425,25 @@ class Ball {
     this.b=  b;
     randomize();
   }
-  Ball( int n, float x, float y ) {
+  /*Ball( int n, float x, float y ) {
     number=  n;
     randomize();
+  }*/
+  void show() {
+    // Ball properties
+    fill(r,g,b);
+    ellipse( x,y, 30,30);
+    fill(0,0,0);
+    text(number, x-4,y+4);
   }
   void randomize() {
     r=  random(255);
     g=  random(255);
     b=  random(255);
-    x=  random( width/2, width-100);
-    y=  random( height/4, height*3/4);
-    dx= random( -2, 2 );
-    dy= random( -2, 2 );
-  }
-  void show() {
-    // Ball properties
-    fill(r,g,b);
-    ellipse( x,y, 30,30);
+    x=  random( (width/2)+20, (width*(0.8))-20 );
+    y=  random( (height/4)+20, (height*(0.75))-20 );
+    dx= random( -3, 3 );
+    dy= random( -3, 3 );
   }
   void move() {
     // WALL COLLISION
